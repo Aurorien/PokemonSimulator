@@ -3,7 +3,8 @@
 internal class Emolga : ElectricPokemon
 {
     public Emolga(int level, List<Attack> attacks)
-        : base("Pikachu", level, attacks)
+        : base("Emolga", level, attacks)
     {
     }
+
 }

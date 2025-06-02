@@ -12,8 +12,16 @@ public class Game
     public void Run()
     {
         AvailableAttacks[0].Use(42);
+
         Pokemon squirtle = new Squirtle(5, AvailableAttacks);
         Console.WriteLine($"A wild {squirtle.Name} appeared! It's a level {squirtle.Level} {squirtle.Type} Pokémon.");
+        squirtle.RandomAttack();
+
+        Pokemon charmander = new Charmander(10, AvailableAttacks);
+        Console.WriteLine($"A wild {charmander.Name} appeared! It's a level {charmander.Level} {charmander.Type} Pokémon.");
+        charmander.RandomAttack();
+        charmander.Evolve();
+
     }
 
     private List<Attack> InitializeAttacks()

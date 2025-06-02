@@ -1,36 +1,69 @@
-﻿namespace PokemonSimulator.Pokemons;
+﻿using PokemonSimulator.Abstractions;
+using System.Diagnostics.CodeAnalysis;
 
-internal abstract class Pokemon
+namespace PokemonSimulator.Pokemons;
+
+internal abstract class Pokemon : IEvolvable
 {
     private readonly List<Attack> _attacks;
 
-    public string Name { get; }
-    public ElementType Type { get; }
-    public int Level { get; private set; }
+    private string _name;
+    private ElementType _type;
+    private int _level;
+
+    public string Name
+    {
+        get => _name;
+
+        [MemberNotNull(nameof(_name))] // attribute to ensure _name is not null when set, also lhelps the compiler understand that this property will always be set before use
+        protected set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Name cannot be null or empty.", nameof(value));
+
+            if (value.Length < 2 || value.Length > 15)
+                throw new ArgumentException("Name must be between 2 and 15 characters.", nameof(value));
+            _name = value;
+        }
+    }
+    public ElementType Type
+    {
+        get => _type;
+
+        [MemberNotNull(nameof(_type))]
+        protected set
+        {
+            if (!Enum.IsDefined(typeof(ElementType), value))
+                throw new ArgumentException("Invalid element type.", nameof(value));
+            _type = value;
+        }
+    }
+    public int Level
+    {
+        get => _level;
+
+        [MemberNotNull(nameof(_level))]
+        protected set
+        {
+
+            if (value < 1)
+                throw new ArgumentException("Level must be greater than or equal to 1.", nameof(value));
+            _level = value;
+        }
+    }
 
     public Pokemon(string name, ElementType type, int level, List<Attack> attacks)
     {
-        if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Name cannot be null or empty.", nameof(name));
-
-        if (name.Length < 2 || name.Length > 15)
-            throw new ArgumentException("Name must be between 2 and 15 characters.", nameof(name));
-
-        if (!Enum.IsDefined(typeof(ElementType), type))
-            throw new ArgumentException("Invalid element type.", nameof(type));
-
-        if (level < 1)
-            throw new ArgumentException("Level must be greater than or equal to 1.", nameof(level));
-
         Name = name;
         Type = type;
         Level = level;
         _attacks = attacks ?? throw new ArgumentNullException(nameof(attacks));
     }
 
+    public virtual void Evolve() { }
+
     public void RandomAttack()
     {
-        // Picks a random attack from the list of attacks and invokes its .Use-method.
         if (_attacks.Count == 0)
         {
             Console.WriteLine($"{Name} has no attacks to use!");
@@ -45,7 +78,6 @@ internal abstract class Pokemon
 
     public void Attack()
     {
-        // Lets the user pick an attack from the list of attacks and invoke its .Use-method.
         if (_attacks.Count == 0)
         {
             Console.WriteLine($"{Name} has no attacks to use!");
@@ -71,7 +103,6 @@ internal abstract class Pokemon
 
     public void RaiseLevel()
     {
-        // That should increment the level of the given pokemon and print that the pokemon has leveled up.
         Level++;
         Console.WriteLine($"{Name} has leveled up from level {Level} to level {Level + 1}!");
     }
