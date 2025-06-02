@@ -60,7 +60,10 @@ internal abstract class Pokemon : IEvolvable
         _attacks = attacks ?? throw new ArgumentNullException(nameof(attacks));
     }
 
-    public virtual void Evolve() { }
+    public virtual void Evolve()
+    {
+        Console.WriteLine($"{Name} cannot evolve!");
+    }
 
     public void RandomAttack()
     {
