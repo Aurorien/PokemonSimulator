@@ -1,5 +1,4 @@
-﻿
-public class Game
+﻿public class Game
 {
     private List<Attack> AvailableAttacks { get; }
 

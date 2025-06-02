@@ -1,5 +1,4 @@
-﻿
-internal class Attack
+﻿internal class Attack
 {
     public string Name { get; private set; }
     public ElementType Type { get; private set; }
