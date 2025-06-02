@@ -1,4 +1,5 @@
-﻿
+﻿namespace PokemonSimulator.Pokemons;
+
 internal abstract class Pokemon
 {
     private readonly List<Attack> _attacks;

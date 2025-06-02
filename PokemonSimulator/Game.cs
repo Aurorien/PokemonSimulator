@@ -1,4 +1,6 @@
-﻿public class Game
+﻿using PokemonSimulator.Pokemons;
+
+public class Game
 {
     private List<Attack> AvailableAttacks { get; }
 
@@ -10,6 +12,8 @@
     public void Run()
     {
         AvailableAttacks[0].Use(42);
+        Pokemon squirtle = new Squirtle(5, AvailableAttacks);
+        Console.WriteLine($"A wild {squirtle.Name} appeared! It's a level {squirtle.Level} {squirtle.Type} Pokémon.");
     }
 
     private List<Attack> InitializeAttacks()
