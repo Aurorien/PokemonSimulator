@@ -2,10 +2,10 @@
 
 namespace PokemonSimulator.Pokemons;
 
-internal class Squirtle : WaterPokemon, IEvolvable
+internal class Shinx : ElectricPokemon, IEvolvable
 {
-    public Squirtle(int level, List<Attack> attacks)
-        : base("Squirtle", level, attacks)
+    public Shinx(int level, List<Attack> attacks)
+        : base("Shinx", level, attacks)
     {
     }
 
@@ -13,13 +13,13 @@ internal class Squirtle : WaterPokemon, IEvolvable
     {
         string oldName = this.Name; // strings are imutable and when a string updated a new string object is created, here we store the old name before changing it and it hold the reference to the old name's string object
 
-        if (Level == 16)
+        if (Level == 15)
         {
-            this.Name = "Wartortle";
+            this.Name = "Luxio";
         }
-        else if (Level == 35)
+        else if (Level == 30)
         {
-            this.Name = "Blastoise";
+            this.Name = "Luxray";
         }
         else
         {

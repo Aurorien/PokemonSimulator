@@ -2,7 +2,7 @@
 
 namespace PokemonSimulator.Abstractions;
 
-public interface IEvolvable
+internal interface IEvolvable
 {
     void Evolve();
 }

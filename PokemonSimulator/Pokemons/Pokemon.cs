@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace PokemonSimulator.Pokemons;
 
-internal abstract class Pokemon : IEvolvable
+internal abstract class Pokemon
 {
     private readonly List<Attack> _attacks;
 
@@ -60,10 +60,6 @@ internal abstract class Pokemon : IEvolvable
         _attacks = attacks ?? throw new ArgumentNullException(nameof(attacks));
     }
 
-    public virtual void Evolve()
-    {
-        Console.WriteLine($"{Name} cannot evolve!");
-    }
 
     public void RandomAttack()
     {
@@ -86,13 +82,18 @@ internal abstract class Pokemon : IEvolvable
             Console.WriteLine($"{Name} has no attacks to use!");
             return;
         }
+
         Console.WriteLine($"{Name} has the following attacks:");
+
         for (int i = 0; i < _attacks.Count; i++)
         {
             Console.WriteLine($"{i + 1}: {_attacks[i].Name} (Type: {_attacks[i].Type}, Power: {_attacks[i].BasePower})");
         }
+
         Console.Write("Choose an attack by number: ");
+
         string input = Console.ReadLine() ?? string.Empty;
+
         if (int.TryParse(input, out int attackIndex) && attackIndex > 0 && attackIndex <= _attacks.Count)
         {
             Attack selectedAttack = _attacks[attackIndex - 1];
@@ -106,9 +107,10 @@ internal abstract class Pokemon : IEvolvable
 
     public void RaiseLevel()
     {
-        Level++;
         Console.WriteLine($"{Name} has leveled up from level {Level} to level {Level + 1}!");
+        Level++;
+
+        if (this is IEvolvable evolvablePokemon)
+            evolvablePokemon.Evolve();
     }
-
 }
-
