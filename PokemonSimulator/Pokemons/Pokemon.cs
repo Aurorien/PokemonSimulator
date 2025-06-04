@@ -90,24 +90,32 @@ internal abstract class Pokemon
             Console.WriteLine($"{i + 1}: {_attacks[i].Name} (Type: {_attacks[i].Type}, Power: {_attacks[i].BasePower})");
         }
 
-        Console.Write("Choose an attack by number: ");
-
-        string input = Console.ReadLine() ?? string.Empty;
-
-        if (int.TryParse(input, out int attackIndex) && attackIndex > 0 && attackIndex <= _attacks.Count)
+        do
         {
-            Attack selectedAttack = _attacks[attackIndex - 1];
-            selectedAttack.Use(Level);
-        }
-        else
-            Console.WriteLine("Invalid selection. Please try again.");
+            Console.Write("Choose an attack by number: ");
+
+            string input = Console.ReadLine() ?? string.Empty;
+
+            if (int.TryParse(input, out int attackIndex) && attackIndex > 0 && attackIndex <= _attacks.Count)
+            {
+                Attack selectedAttack = _attacks[attackIndex - 1];
+                selectedAttack.Use(Level);
+                return;
+            }
+            else
+                Console.WriteLine("Invalid selection. Please try again.");
+        } while (true);
+
     }
 
 
 
     public void RaiseLevel()
     {
-        Console.WriteLine($"{Name} has leveled up from level {Level} to level {Level + 1}!");
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;
+        Console.WriteLine($"\n{Name} has leveled up from level {Level} to level {Level + 1}!\n");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+
         Level++;
 
         if (this is IEvolvable evolvablePokemon)
