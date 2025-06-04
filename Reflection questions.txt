@@ -1,0 +1,22 @@
+Reflection questions
+
+Q: When you create a Pokémon and try to access its fields directly – does it work? Why or why not?
+A: No, it does not work because I create Pokémons in the Main class. The fields of a Pokémon are in the Pokemon class and are private, therefore not accessible outside that class.
+
+Q: If you later want to add a new property that applies to all Electric-type Pokémon, where should you place it to avoid repetition?
+A: I place it in the ElectricPokemon that all Electric-type Pokémons inherit from. The access modifier I use is public if external code needs to access it, or protected if only Electric-type Pokémon classes should access it internally.
+
+Q: If instead the new property should apply to all Pokémon, where would be the correct place to define it?
+A: Then I would place it in class Pokemon.
+
+Q: What happens if you try to add a Charmander to a list that only allows WaterPokemon?
+A: It does not work. Firstly, I need to create the list: List<WaterPokemon>, then the Pokémons added to it has to be created as type WaterPokemon or any inheriting type. Charmander can not be created of any of those classes because it does not have that inheritance.
+
+Q: You want to store different types of Pokémon – Charmander, Squirtle, and Pikachu – in the same list. What type should the list have for that to work?
+A: A list of type Pokemon which is the base class for all the Pokémon types. 
+
+Q: When you loop through the list and call Attack(), what ensures that the correct attack behavior is executed for each Pokémon?
+A: The Attack method is in the Pokemon class and uses the specific values in properties of the specific Pokémon that is attacking.
+
+Q: If you create a method that only exists on Pikachu, why can’t you call it directly when it’s stored in a List<Pokemon>? How could you still access it?
+A: Only Pikachu types can access that method and the compiler only knows the declared type Pokemon for the Pikachu object. Therefore, the compliler gives error for type safety reasons and for preventing calling methods that might not exist. I can still access it by type casting or pattern matching and then calling the method.
