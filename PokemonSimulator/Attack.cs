@@ -14,7 +14,9 @@
     public void Use(int level)
     {
         int damage = CalculateDamage(level);
-        Console.WriteLine($"{Name} hits with total power {damage}!");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"\n{Name} hits with total power {damage}!\n");
+        Console.ForegroundColor = ConsoleColor.Cyan;
     }
 
     internal int CalculateDamage(int level)
