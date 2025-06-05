@@ -72,18 +72,18 @@ internal abstract class Pokemon
         var random = new Random();
         int randomIndex = random.Next(_attacks.Count);
         Attack selectedAttack = _attacks[randomIndex];
-        selectedAttack.Use(Level);
+        selectedAttack.Use(Name, Level);
     }
 
     public void Attack()
     {
         if (_attacks.Count == 0)
         {
-            Console.WriteLine($"{Name} has no attacks to use!");
+            Console.WriteLine($"\n{Name} has no attacks to use!");
             return;
         }
 
-        Console.WriteLine($"{Name} has the following attacks:");
+        Console.WriteLine($"\n{Name} has the following attacks:");
 
         for (int i = 0; i < _attacks.Count; i++)
         {
@@ -99,7 +99,7 @@ internal abstract class Pokemon
             if (int.TryParse(input, out int attackIndex) && attackIndex > 0 && attackIndex <= _attacks.Count)
             {
                 Attack selectedAttack = _attacks[attackIndex - 1];
-                selectedAttack.Use(Level);
+                selectedAttack.Use(Name, Level);
                 return;
             }
             else
@@ -113,7 +113,7 @@ internal abstract class Pokemon
     public void RaiseLevel()
     {
         Console.ForegroundColor = ConsoleColor.DarkMagenta;
-        Console.WriteLine($"\n{Name} has leveled up from level {Level} to level {Level + 1}!\n");
+        Console.WriteLine($"{Name} has leveled up from level {Level} to level {Level + 1}!\n");
         Console.ForegroundColor = ConsoleColor.Cyan;
 
         Level++;

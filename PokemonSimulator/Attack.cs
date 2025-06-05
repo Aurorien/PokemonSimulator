@@ -11,11 +11,12 @@
         BasePower = basePower;
     }
 
-    public void Use(int level)
+    public void Use(string pokemonName, int level)
     {
         int damage = CalculateDamage(level);
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine($"\n{Name} hits with total power {damage}!\n");
+        Console.WriteLine($"\n{pokemonName} attacks!");
+        Console.WriteLine($"{Name} hits with total power {damage}!\n");
         Console.ForegroundColor = ConsoleColor.Cyan;
     }
 

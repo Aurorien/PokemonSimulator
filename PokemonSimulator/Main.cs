@@ -24,9 +24,16 @@ public class Main
 
         foreach (var pokemon in pokemons)
         {
-            Console.WriteLine($"\nA wild {pokemon.Name} appeared! It's a level {pokemon.Level} {pokemon.Type} Pokémon.\n");
+            Console.WriteLine($"\nA wild {pokemon.Name} appeared! It's a level {pokemon.Level} {pokemon.Type} Pokémon.");
 
             if (pokemon is Squirtle)
+                pokemon.RandomAttack();
+            else
+                pokemon.Attack();
+
+            pokemon.RaiseLevel();
+
+            if (pokemon is not Squirtle)
                 pokemon.RandomAttack();
             else
                 pokemon.Attack();
