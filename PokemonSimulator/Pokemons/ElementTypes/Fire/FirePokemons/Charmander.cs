@@ -26,7 +26,9 @@ internal class Charmander : FirePokemon, IEvolvable
             return; // no evolution occurs if the level is not high enough
         }
 
-        Console.WriteLine($"{oldName} is evolving... Now it is {this.Name}!");
+        this.Level += 10;
+
+        Console.WriteLine($"{oldName} is evolving... Now it is {this.Name}! Level {this.Level}!");
     }
 }
 
