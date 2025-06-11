@@ -4,8 +4,8 @@ namespace PokemonSimulator.Pokemons;
 
 internal class Squirtle : WaterPokemon, IEvolvable
 {
-    public Squirtle(int level, List<Attack> attacks)
-        : base("Squirtle", level, attacks)
+    public Squirtle(int level, List<Attack> attacks, IUserInterface ui)
+        : base("Squirtle", level, attacks, ui)
     {
     }
 
@@ -28,6 +28,6 @@ internal class Squirtle : WaterPokemon, IEvolvable
 
         this.Level += 10;
 
-        Console.WriteLine($"{oldName} is evolving... Now it is {this.Name}! Level {this.Level}!");
+        _ui.WriteLine($"{oldName} is evolving... Now it is {this.Name}! Level {this.Level}!");
     }
 }

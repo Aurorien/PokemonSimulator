@@ -5,11 +5,16 @@ namespace PokemonSimulator.Pokemons;
 
 internal abstract class Pokemon
 {
-    private readonly List<Attack> _attacks;
-
     private string _name;
     private ElementType _type;
     private int _level;
+
+    private readonly List<Attack> _attacks;
+
+    private bool HasAttacks() => _attacks?.Count > 0;
+
+    protected readonly IUserInterface _ui;
+
 
     public string Name
     {
@@ -26,6 +31,7 @@ internal abstract class Pokemon
             _name = value;
         }
     }
+
     public ElementType Type
     {
         get => _type;
@@ -38,6 +44,7 @@ internal abstract class Pokemon
             _type = value;
         }
     }
+
     public int Level
     {
         get => _level;
@@ -52,12 +59,14 @@ internal abstract class Pokemon
         }
     }
 
-    public Pokemon(string name, ElementType type, int level, List<Attack> attacks)
+
+    public Pokemon(string name, ElementType type, int level, List<Attack> attacks, IUserInterface ui)
     {
         Name = name;
         Type = type;
         Level = level;
         _attacks = attacks ?? throw new ArgumentNullException(nameof(attacks));
+        _ui = ui ?? throw new ArgumentNullException(nameof(ui));
     }
 
 
@@ -65,7 +74,7 @@ internal abstract class Pokemon
     {
         if (_attacks.Count == 0)
         {
-            Console.WriteLine($"{Name} has no attacks to use!");
+            _ui.WriteLine($"{Name} has no attacks to use!");
             return;
         }
 
@@ -75,50 +84,60 @@ internal abstract class Pokemon
         selectedAttack.Use(Name, Level);
     }
 
+
     public void Attack()
     {
-        if (_attacks.Count == 0)
+        if (!HasAttacks())
         {
-            Console.WriteLine($"\n{Name} has no attacks to use!");
+            _ui.WriteLine($"\n{Name} has no attacks to use!");
             return;
         }
 
-        Console.WriteLine($"\n{Name} has the following attacks:");
+        DisplayAttacks();
 
-        for (int i = 0; i < _attacks.Count; i++)
-        {
-            Console.WriteLine($"{i + 1}: {_attacks[i].Name} (Type: {_attacks[i].Type}, Power: {_attacks[i].BasePower})");
-        }
-
-        do
-        {
-            Console.Write("Choose an attack by number: ");
-
-            string input = Console.ReadLine() ?? string.Empty;
-
-            if (int.TryParse(input, out int attackIndex) && attackIndex > 0 && attackIndex <= _attacks.Count)
-            {
-                Attack selectedAttack = _attacks[attackIndex - 1];
-                selectedAttack.Use(Name, Level);
-                return;
-            }
-            else
-                Console.WriteLine("Invalid selection. Please try again.");
-        } while (true);
-
+        var selectedAttack = PromptForAttackSelection();
+        selectedAttack?.Use(Name, Level);
     }
-
 
 
     public void RaiseLevel()
     {
         Console.ForegroundColor = ConsoleColor.DarkMagenta;
-        Console.WriteLine($"{Name} has leveled up from level {Level} to level {Level + 1}!\n");
+        _ui.WriteLine($"{Name} has leveled up from level {Level} to level {Level + 1}!\n");
         Console.ForegroundColor = ConsoleColor.Cyan;
 
         Level++;
 
         if (this is IEvolvable evolvablePokemon)
             evolvablePokemon.Evolve();
+    }
+
+
+    private void DisplayAttacks()
+    {
+        _ui.WriteLine($"\n{Name} has the following attacks:");
+        for (int i = 0; i < _attacks.Count; i++)
+        {
+            var atk = _attacks[i];
+            _ui.WriteLine($"{i + 1}: {atk.Name} (Type: {atk.Type}, Power: {atk.BasePower})");
+        }
+    }
+
+
+    private Attack PromptForAttackSelection()
+    {
+        while (true)
+        {
+            _ui.Write("Choose an attack by number: ");
+            var input = _ui.ReadLine();
+
+            if (int.TryParse(input, out int index) &&
+                index >= 1 && index <= _attacks.Count)
+            {
+                return _attacks[index - 1];
+            }
+
+            _ui.WriteLine("Invalid selection. Please try again.");
+        }
     }
 }

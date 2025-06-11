@@ -4,8 +4,8 @@ namespace PokemonSimulator.Pokemons;
 
 internal class Charmander : FirePokemon, IEvolvable
 {
-    public Charmander(int level, List<Attack> attacks)
-        : base("Charmander", level, attacks)
+    public Charmander(int level, List<Attack> attacks, IUserInterface ui)
+        : base("Charmander", level, attacks, ui)
     {
     }
 
@@ -28,7 +28,7 @@ internal class Charmander : FirePokemon, IEvolvable
 
         this.Level += 10;
 
-        Console.WriteLine($"{oldName} is evolving... Now it is {this.Name}! Level {this.Level}!");
+        _ui.WriteLine($"{oldName} is evolving... Now it is {this.Name}! Level {this.Level}!");
     }
 }
 

@@ -1,11 +1,15 @@
-﻿using PokemonSimulator.Pokemons;
+﻿using PokemonSimulator.Abstractions;
+using PokemonSimulator.Pokemons;
 
 public class Main
 {
+    private readonly IUserInterface _ui;
     private List<Pokemon> pokemons = new List<Pokemon>();
 
-    public Main()
+
+    public Main(IUserInterface ui)
     {
+        this._ui = ui;
     }
 
     public void Run()
@@ -17,14 +21,14 @@ public class Main
     private void Play()
     {
         Console.ForegroundColor = ConsoleColor.Blue;
-        Console.WriteLine("=========================================");
-        Console.WriteLine("Welcome to the Pokémon Simulator!");
-        Console.WriteLine("=========================================\n");
+        _ui.WriteLine("=========================================");
+        _ui.WriteLine("Welcome to the Pokémon Simulator!");
+        _ui.WriteLine("=========================================\n");
         Console.ForegroundColor = ConsoleColor.Cyan;
 
         foreach (var pokemon in pokemons)
         {
-            Console.WriteLine($"\nA wild {pokemon.Name} appeared! It's a level {pokemon.Level} {pokemon.Type} Pokémon.");
+            _ui.WriteLine($"\nA wild {pokemon.Name} appeared! It's a level {pokemon.Level} {pokemon.Type} Pokémon.");
 
             if (pokemon is Squirtle)
                 pokemon.RandomAttack();
@@ -51,10 +55,10 @@ public class Main
         var nuzzle = new Attack("Nuzzle", ElementType.Electric, 20);
         var thunderbolt = new Attack("Thunderbolt", ElementType.Electric, 90);
 
-        Shinx shinx = new Shinx(100, [nuzzle, thunderbolt]);
-        Emolga emolga = new Emolga(50, [nuzzle]);
-        Squirtle squirtle = new Squirtle(5, [watergun, wavecrash]);
-        Charmander charmander = new Charmander(15, [flamethrower, ember]);
+        Shinx shinx = new Shinx(100, [nuzzle, thunderbolt], _ui);
+        Emolga emolga = new Emolga(50, [nuzzle], _ui);
+        Squirtle squirtle = new Squirtle(5, [watergun, wavecrash], _ui);
+        Charmander charmander = new Charmander(15, [flamethrower, ember], _ui);
 
         pokemons.AddRange([shinx, emolga, squirtle, charmander]);
     }

@@ -4,8 +4,8 @@ namespace PokemonSimulator.Pokemons;
 
 internal class Shinx : ElectricPokemon, IEvolvable
 {
-    public Shinx(int level, List<Attack> attacks)
-        : base("Shinx", level, attacks)
+    public Shinx(int level, List<Attack> attacks, IUserInterface ui)
+        : base("Shinx", level, attacks, ui)
     {
     }
 
@@ -28,6 +28,6 @@ internal class Shinx : ElectricPokemon, IEvolvable
 
         this.Level += 10;
 
-        Console.WriteLine($"{oldName} is evolving... Now it is {this.Name}! Level {this.Level}!");
+        _ui.WriteLine($"{oldName} is evolving... Now it is {this.Name}! Level {this.Level}!");
     }
 }
